@@ -1,8 +1,11 @@
 {
   "name": "inquirer-scene",
-  "version": "1.0.3",
+  "version": "1.0.8",
   "description": "lib for creating cli menu",
   "main": "lib/index.js",
+  "scripts": {
+    "push": "tsc && npm publish"
+  },
   "keywords": [
     "inquirer",
     "cli",

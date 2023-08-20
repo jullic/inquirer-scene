@@ -6,8 +6,8 @@ import { IQuestion, QuestionType } from './interfaces/question.interface';
 export interface IQuestionProps<T extends Record<string, any> = Record<string, any>> {
 	id: string;
 	action: (context: IInquirerContext<T>, answer: unknown) => Promise<any>;
-	question: QuestionType;
 	configureQuestion: (context: IInquirerContext<T>) => QuestionType;
+	context: IInquirerContext<T>;
 	customBack?: string | undefined;
 	parentId?: string;
 	customBackAction?: boolean;
@@ -30,16 +30,6 @@ export class Question<T extends Record<string, any> = Record<string, any>> imple
 		this.parentId = props.parentId;
 		this.customBackAction = !!props.customBackAction;
 
-		if (props.question.type === 'list' && this.parentId) {
-			const choices = props.question.choices as string[];
-			this.question = {
-				...props.question,
-				choices: [...choices, this.customBack || this.defaultBackButton],
-			};
-		} else {
-			this.question = props.question;
-		}
-
 		this.action = async (context: IInquirerContext<T>) => {
 			const { answer } = await inquirer.prompt([{ ...this.question, name: 'answer' }]);
 
@@ -55,8 +45,17 @@ export class Question<T extends Record<string, any> = Record<string, any>> imple
 
 		this.configureQuestion = (context: IInquirerContext<T>) => {
 			const question = props.configureQuestion(context);
-			this.question = question;
+			if (question.type === 'list' && this.parentId) {
+				const choices = question.choices as string[];
+				this.question = {
+					...question,
+					choices: [...choices, this.customBack || this.defaultBackButton],
+				};
+			} else {
+				this.question = question;
+			}
 			return question;
 		};
+		this.question = this.configureQuestion(props.context);
 	}
 }
