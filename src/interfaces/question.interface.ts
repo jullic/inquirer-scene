@@ -27,6 +27,7 @@ export interface IQuestion<T extends Record<string, any> = Record<string, any>> 
 	parentId?: string;
 	action: (context: IInquirerContext<T>) => Promise<any>;
 	question: QuestionType;
+	configureQuestion: (context: IInquirerContext<T>) => QuestionType;
 	back?: boolean;
 	customBack?: string;
 }

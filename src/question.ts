@@ -7,6 +7,7 @@ export interface IQuestionProps<T extends Record<string, any> = Record<string, a
 	id: string;
 	action: (context: IInquirerContext<T>, answer: unknown) => Promise<any>;
 	question: QuestionType;
+	configureQuestion: (context: IInquirerContext<T>) => QuestionType;
 	customBack?: string | undefined;
 	parentId?: string;
 	customBackAction?: boolean;
@@ -16,6 +17,7 @@ export class Question<T extends Record<string, any> = Record<string, any>> imple
 	id: string;
 	parentId?: string | undefined;
 	question: QuestionType;
+	configureQuestion: (context: IInquirerContext<T>) => QuestionType;
 	customBack?: string | undefined;
 	action: (context: IInquirerContext<T>) => Promise<any>;
 	private defaultBackButton: string;
@@ -49,6 +51,12 @@ export class Question<T extends Record<string, any> = Record<string, any>> imple
 				}
 			}
 			await props.action(context, answer);
+		};
+
+		this.configureQuestion = (context: IInquirerContext<T>) => {
+			const question = props.configureQuestion(context);
+			this.question = question;
+			return question;
 		};
 	}
 }
