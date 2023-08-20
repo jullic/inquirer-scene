@@ -1,0 +1,23 @@
+{
+  "name": "inquirer-scene",
+  "version": "1.0.1",
+  "description": "lib for creating cli menu",
+  "main": "lib/index.js",
+  "keywords": [
+    "inquirer",
+    "cli",
+    "menu",
+    "scene",
+    "questions"
+  ],
+  "author": "Alexander Lvov",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/inquirer": "^9.0.3",
+    "@types/node": "^20.5.1"
+  },
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "inquirer": "^8.2.6"
+  }
+}
