@@ -17,6 +17,7 @@ export class InquirerContext<T extends Record<string, any> = Record<string, any>
 		if (!question) {
 			throw new Error('Incorrect question id');
 		}
+		this.currentQuestion = question;
 		return await question.action(this);
 	}
 }
