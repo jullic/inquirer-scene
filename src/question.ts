@@ -3,27 +3,32 @@ import chalk from 'chalk';
 import { IInquirerContext } from './interfaces/inquirer-context.interface';
 import { IQuestion, QuestionType } from './interfaces/question.interface';
 
-export interface IQuestionProps<T extends Record<string, any> = Record<string, any>> {
+export interface IQuestionProps<
+	T extends Record<string, any> = Record<string, any>,
+	S extends QuestionType = QuestionType
+> {
 	id: string;
 	action: (context: IInquirerContext<T>, answer: unknown) => Promise<any>;
-	configureQuestion: (context: IInquirerContext<T>) => QuestionType;
+	configureQuestion: (context: IInquirerContext<T>) => S;
 	context: IInquirerContext<T>;
 	customBack?: string | undefined;
 	parentId?: string;
 	customBackAction?: boolean;
 }
 
-export class Question<T extends Record<string, any> = Record<string, any>> implements IQuestion<T> {
+export class Question<T extends Record<string, any> = Record<string, any>, S extends QuestionType = QuestionType>
+	implements IQuestion<T, S>
+{
 	id: string;
 	parentId?: string | undefined;
-	question: QuestionType;
-	configureQuestion: (context: IInquirerContext<T>) => QuestionType;
+	question: S;
+	configureQuestion: (context: IInquirerContext<T>) => S;
 	customBack?: string | undefined;
 	action: (context: IInquirerContext<T>) => Promise<any>;
 	private defaultBackButton: string;
 	private customBackAction: boolean;
 
-	constructor(props: IQuestionProps<T>) {
+	constructor(props: IQuestionProps<T, S>) {
 		this.id = props.id;
 		this.customBack = props.customBack;
 		this.defaultBackButton = chalk.blue('Back');

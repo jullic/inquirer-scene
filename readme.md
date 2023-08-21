@@ -31,11 +31,12 @@ export const bootstrap = async () => {
 			}
 			await context.getQuestion('second');
 		},
-		question: {
+		configureQuestion: (context) => ({
 			type: 'list',
 			choices: ['first', 'second'],
 			message: 'First Question',
-		},
+		}),
+		context: inquirer.context,
 	});
 
 	const secondQuestion = new Question<IDefaultState>({
@@ -50,13 +51,13 @@ export const bootstrap = async () => {
 			}
 			await context.getQuestion('first');
 		},
-		question: {
+		configureQuestion: (context) => ({
 			type: 'list',
 			choices: ['first', 'exit'],
-			message: 'First Question',
-		},
+			message: 'Second Question',
+		}),
+		context: inquirer.context,
 		parentId: 'first',
-		customBackAction: true,
 	});
 
 	inquirer.addQuestions([firstQuestion, secondQuestion]);
@@ -64,6 +65,4 @@ export const bootstrap = async () => {
 
 	console.log(inquirer.context.state);
 };
-
-bootstrap();
 ```

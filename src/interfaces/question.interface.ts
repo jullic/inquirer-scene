@@ -22,12 +22,12 @@ export type QuestionType =
 	| Omit<CheckboxQuestion, 'name'>
 	| Omit<PasswordQuestion, 'name'>;
 
-export interface IQuestion<T extends Record<string, any> = Record<string, any>> {
+export interface IQuestion<T extends Record<string, any> = Record<string, any>, S extends QuestionType = QuestionType> {
 	id: string;
 	parentId?: string;
 	action: (context: IInquirerContext<T>) => Promise<any>;
-	question: QuestionType;
-	configureQuestion: (context: IInquirerContext<T>) => QuestionType;
+	question: S;
+	configureQuestion: (context: IInquirerContext<T>) => S;
 	back?: boolean;
 	customBack?: string;
 }
